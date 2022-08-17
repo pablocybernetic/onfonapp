@@ -10,6 +10,7 @@ class User {
   final int userId;
   final String title;
   final String body;
+  
 
   User({
     required this.id,
@@ -107,7 +108,17 @@ class _HomePageState extends State<HomePage> {
                         trailing: const Icon(
                           Icons.keyboard_arrow_right,
                           color: Colors.blue,
+                          // on icon click  navigate to next page
+                        
                         ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => homescreen(),
+                              ),
+                            );
+                          },
                       ),
                     );
                   },
