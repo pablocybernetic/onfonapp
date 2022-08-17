@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class homescreen
- extends StatelessWidget {
+class homescreen extends StatelessWidget {
   const homescreen
   ({Key? key}) : super(key: key);
 
