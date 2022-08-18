@@ -6,17 +6,28 @@ import 'package:onfonapp/home.dart';
 
 //Creating a class user to store the data;
 class User {
-  final int id;
-  final int userId;
+  final String id;
+  final String userId;
   final String title;
   final String body;
-  
-
+  final String timestamp;
+  final String carrier;
+  final String response;
+  final String level;
+  final String status;
+  final String timestampResponded;
   User({
     required this.id,
     required this.userId,
     required this.title,
     required this.body,
+    required this.timestamp,
+    required this.carrier,
+    required this.response,
+    required this.level,
+    required this.status,
+    required this.timestampResponded,
+    
   });
 }
 
@@ -31,21 +42,30 @@ class _HomePageState extends State<HomePage> {
   Future<List<User>> getRequest() async {
     // restFull API
     final response =
-        await http.get(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
+        await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
 
     var responseData = json.decode(response.body);
+    print(responseData);
 
     //Creating a list to store input data;
     List<User> users = [];
     for (var singleUser in responseData) {
       User user = User(
           id: singleUser["id"],
-          userId: singleUser["userId"],
-          title: singleUser["title"],
-          body: singleUser["body"]);
+          userId: singleUser["message_to"],
+          title: singleUser["message_from"],
+          body: singleUser["Message_body"],
+          timestamp: singleUser["timestamp"],
+          carrier: singleUser["carrier"],
+          response: singleUser["response"],
+          level: singleUser["level"],
+          status: singleUser["processed_status"],
+          timestampResponded: singleUser["timestamp_responded"]
+      );
 
       //Adding user to the list.
       users.add(user);
+      print(users);
     }
     return users;
   }
@@ -111,14 +131,26 @@ class _HomePageState extends State<HomePage> {
                           // on icon click  navigate to next page
                         
                         ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => homescreen(),
+                          // pass data to next page
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => homescreen(
+                                id: snapshot.data[index].id,
+                                userId: snapshot.data[index].userId,
+                                title: snapshot.data[index].title,
+                                body: snapshot.data[index].body,
+                                timestamp: snapshot.data[index].timestamp,
+                                carrier: snapshot.data[index].carrier,
+                                response: snapshot.data[index].response,
+                                level: snapshot.data[index].level,
+                                status: snapshot.data[index].status,
+                                timestampResponded: snapshot.data[index].timestampResponded,
                               ),
-                            );
-                          },
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
