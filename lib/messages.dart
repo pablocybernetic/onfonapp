@@ -32,6 +32,8 @@ class User {
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -45,7 +47,6 @@ class _HomePageState extends State<HomePage> {
         await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
 
     var responseData = json.decode(response.body);
-    print(responseData);
 
     //Creating a list to store input data;
     List<User> users = [];
@@ -65,7 +66,6 @@ class _HomePageState extends State<HomePage> {
 
       //Adding user to the list.
       users.add(user);
-      print(users);
     }
     return users;
   }

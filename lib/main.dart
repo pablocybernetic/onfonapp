@@ -3,7 +3,7 @@ import 'package:onfonapp/home.dart';
 import 'package:onfonapp/messages.dart';
 import 'package:onfonapp/grid.dart';
 
-import 'view_single_item.dart';
+import 'conversation.dart';
 
 
 void main() {

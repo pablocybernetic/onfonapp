@@ -20,10 +20,10 @@ class GridA extends StatelessWidget {
           crossAxisCount: 2,
           // Generate 100 widgets that display their index in the List.
           children: List.generate(100, (index) {
-            child: BoxDecoration();
+            const BoxDecoration();
             return Center(
               child: Text(
-                'Itemi $index',
+                'Itemi index',
                 style: Theme.of(context).textTheme.headline5,
               ), 
             );
