@@ -37,8 +37,88 @@ class homescreen extends StatelessWidget {
         title: const Text('OnfonMedia'),
       ),
       body: Center(
-        // display the value of the id
-        child: Text('id: $id'),
+        // card for each message
+        child: Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                // icon for each message
+                leading: Icon(Icons.account_circle),
+                title: Text(
+                  
+                  "Sender: "+title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                // background color for each message
+                 tileColor: Color.fromRGBO(187, 218, 247, 1),
+                //  tile coner radius for each message
+                contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                leading: Icon(Icons.message),
+                  subtitle: Text(
+                  body,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                trailing: Text(
+                  timestamp,
+                  style: TextStyle(
+                    fontSize: 7,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  userId,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  response,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                trailing: Text(
+                  level,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  status,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  timestampResponded,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                trailing: Text(
+                  carrier,
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+       
         ),
       
       );}}
