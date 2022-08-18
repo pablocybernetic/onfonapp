@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         // backgroundColor: Color.fromARGB(255, 218, 115, 115)
       ),
       // home: const MyHomePage(title: 'OnfonMedia'),
-      home:  HomePage(),
+      home:  const HomePage(),
     );
   }
 }
