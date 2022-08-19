@@ -1,62 +1,57 @@
 import 'package:flutter/material.dart';
 
-class GridA extends StatelessWidget {
-  const GridA({super.key});
+// Define a custom Form widget.
+class MyCustomForm extends StatefulWidget {
+  const MyCustomForm({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const title = 'Onfonmedia';
-
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(title),
-        ),
-        body: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount: 2,
-          // Generate 100 widgets that display their index in the List.
-          children: List.generate(100, (index) {
-            const BoxDecoration();
-            return Center(
-              child: Text(
-                'Itemi index',
-                style: Theme.of(context).textTheme.headline5,
-              ), 
-            );
-          }),
-        ),
-      ),
-    );
-  }
+  State<MyCustomForm> createState() => _MyCustomFormState();
 }
 
-class HomePage1 extends StatelessWidget {
-  const HomePage1({Key? key}) : super(key: key);
+// Define a corresponding State class.
+// This class holds the data related to the Form.
+class _MyCustomFormState extends State<MyCustomForm> {
+  // Create a text controller and use it to retrieve the current value
+  // of the TextField.
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    myController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('OnfonMedia'),
+        title: const Text('Retrieve Text Input'),
       ),
-       body: GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount: 2,
-          // Generate 100 widgets that display their index in the List.
-          children: List.generate(100, (index) {
-            return Center(
-              child: Text(
-                'Itemi $index',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            );
-          }),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: TextField(
+          controller: myController,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        // When the user presses the button, show an alert dialog containing
+        // the text that the user has entered into the text field.
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                // Retrieve the text the that user has entered by using the
+                // TextEditingController.
+                content: Text(myController.text),
+              );
+            },
+          );
+        },
+        tooltip: 'Show me the value!',
+        child: const Icon(Icons.text_fields),
+      ),
     );
   }
 }

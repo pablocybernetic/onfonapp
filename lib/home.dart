@@ -130,11 +130,11 @@ class homescreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ConversationScreen(),
+                  builder: (context) => const ConversationScreen(),
                 ),
               );
             },
-            child: const Icon(Icons.message),
+            child: const Icon(Icons.add),
           ),
               ],
             ),
