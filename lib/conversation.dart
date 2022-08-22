@@ -81,24 +81,68 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+// background image
+
         appBar: AppBar(
-          title: const Text('OnfonMedia'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/onfon_logo.png',
+                    fit: BoxFit.cover,
+                    height: 60.0,
+                  ),
+                ],
+          ),
+          
+          // title: const Text('OnfonMedia'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.mark_email_unread),
+              onPressed: () {
+                // send message
+              
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                // do something
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                // do something
+              },
+            ),
+          ],
         ),
         body: Container(
-            //             decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage("assets/images/whatsapp.jpg"),
-            //     // fit: BoxFit.cover,
-            //   ),
-            // ),
-            color: Color.fromRGBO(3, 129, 155, 1),
+          
+                        decoration:const  BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/whatsapp.jpg",
+                // width: 
+
+                ),
+                // fit: BoxFit.cover,
+              ),
+            ),
+            // color: Color.fromRGBO(3, 129, 155, 1),
             // background image
             child: Column(
               children: [
-                
+          //       Image.asset(
+          //   "assets/images/whatsapp.jpg",
+            // height: MediaQuery.of(context).size.height,
+          //   width: MediaQuery.of(context).size.width,
+          //   fit: BoxFit.cover,
+          // ),
                 // futureBuilder and get request
                 //
                 Expanded(
+                  
               child:  FutureBuilder(
                   future: getRequest(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -138,8 +182,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                               fontSize: 12,
                               color: Colors.white,
                             )
+                            
                             ),
-                            ));
+                            )
+                            );
                             
                           });
                     }
