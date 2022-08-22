@@ -7,7 +7,31 @@ import 'package:flutter/services.dart';
 // import http
 import 'package:http/http.dart' as http;
 import 'package:soundpool/soundpool.dart';
-
+class User {
+  final String id;
+  final String userId;
+  final String title;
+  final String body;
+  final String timestamp;
+  final String carrier;
+  final String response;
+  final String level;
+  final String status;
+  final String timestampResponded;
+  User({
+    required this.id,
+    required this.userId,
+    required this.title,
+    required this.body,
+    required this.timestamp,
+    required this.carrier,
+    required this.response,
+    required this.level,
+    required this.status,
+    required this.timestampResponded,
+    
+  });
+}
 class ConversationScreen extends StatefulWidget {
   const ConversationScreen({Key? key}) : super(key: key);
 
@@ -16,6 +40,34 @@ class ConversationScreen extends StatefulWidget {
 }
 
 class _ConversationScreenState extends State<ConversationScreen> {
+  // get request
+  Future<List<User>> getRequest() async {
+    // restFull API
+    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
+    if (response.statusCode == 200) {
+      // print(response.body);
+    } else {
+      throw Exception('Failed to load internet');
+    }
+    var responseData = json.decode(response.body);
+    // Creating a list to store input data;
+    List<User> users = [];
+    for (var singleUser in responseData) {
+      User user = User(
+          id: singleUser["id"],
+          userId: singleUser["userId"],
+          title: singleUser["title"],
+          body: singleUser["body"],
+          timestamp: singleUser["timestamp"],
+          carrier: singleUser["carrier"],
+          response: singleUser["response"],
+          level: singleUser["level"],
+          status: singleUser["status"],
+          timestampResponded: singleUser["timestampResponded"]);
+      users.add(user);
+    }
+    return users;
+  }
   final message = TextEditingController();
   @override
   void dispose() {
@@ -228,4 +280,5 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ],
             )));
   }
+  
 }
