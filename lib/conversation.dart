@@ -50,21 +50,23 @@ class _ConversationScreenState extends State<ConversationScreen> {
       throw Exception('Failed to load internet');
     }
     var responseData = json.decode(response.body);
+    // print(responseData);
     // Creating a list to store input data;
     List<User> users = [];
     for (var singleUser in responseData) {
       User user = User(
-          id: singleUser["id"],
-          userId: singleUser["userId"],
-          title: singleUser["title"],
-          body: singleUser["body"],
+            id: singleUser["id"],
+          userId: singleUser["message_to"],
+          title: singleUser["message_from"],
+          body: singleUser["Message_body"],
           timestamp: singleUser["timestamp"],
           carrier: singleUser["carrier"],
           response: singleUser["response"],
           level: singleUser["level"],
-          status: singleUser["status"],
-          timestampResponded: singleUser["timestampResponded"]);
+          status: singleUser["processed_status"],
+          timestampResponded: singleUser["timestamp_responded"]);
       users.add(user);
+      // print(users);
     }
     return users;
   }
@@ -89,62 +91,62 @@ class _ConversationScreenState extends State<ConversationScreen> {
             //     // fit: BoxFit.cover,
             //   ),
             // ),
-            color: Colors.greenAccent,
+            color: Color.fromRGBO(3, 129, 155, 1),
+            // background image
             child: Column(
               children: [
-                Container(
-                  // image background
-                  child: Expanded(
-                    child: ListView.builder(
-                      // scrollDirection: Axis.vertical,
-                      //  shrinkWrap: true,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          // wrap with container to center the text
-                          // background color for each message
-                          margin: const EdgeInsets.all(8.0),
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 97, 130, 208),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.0),
-                              topRight: Radius.circular(20.0),
-                              bottomLeft: Radius.circular(0.0),
-                              bottomRight: Radius.circular(20.0),
-                            ),
+                
+                // futureBuilder and get request
+                //
+                Expanded(
+              child:  FutureBuilder(
+                  future: getRequest(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                      return const Center(
+                        child: Text("Loading..."),
+                      );
+                      
+                    } else { 
+                      return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                               margin: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 97, 130, 208),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.circular(0.0),
+                            bottomRight: Radius.circular(20.0),
                           ),
+                        ),
 
-                          child: const ListTile(
-                            // stylle ListTile
-
-                            leading: Icon(Icons.account_circle,
-                                color: Colors.white, size: 30.0),
-                            title: Text(
-                              "+254705374455:~Pablo",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
+                              child: ListTile(
+                              leading: const Icon(Icons.account_circle),
+                              dense: true,
+                              title: Text(snapshot.data[index].title, 
+                               style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              )
+                              ), 
+                            subtitle: Text(snapshot.data[index].body
+                            ,style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            )
                             ),
-                            subtitle: Text(
-                              "I need a shoe rack early in the morning kindly dm me with the picture and the price.....chat screen...though sijamalizia..i intend to complete chat bubble so as ..naziload kwa API then ..i display them ..kama whatsapp conversation screen",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          // child: ListTile(
-                          //  leading: Icon(Icons.account_circle),
-                          //   title: Text('Sender: title'),
-                          //   subtitle: Text('body'),
-                          // ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                            ));
+                            
+                          });
+                    }
+                  },
+                ),),
+                 
+              
                 Container(
                   // background image
 
