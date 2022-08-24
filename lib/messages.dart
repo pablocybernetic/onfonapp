@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:onfonapp/conversation.dart';
 import 'package:onfonapp/home.dart';
 
 //Creating a class user to store the data;
@@ -27,7 +29,6 @@ class User {
     required this.level,
     required this.status,
     required this.timestampResponded,
-    
   });
 }
 
@@ -43,13 +44,13 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<User>> getRequest() async {
     // restFull API
-    final response =
-        await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
-         if (response.statusCode == 200) {
-          
-        } else {
-    throw Exception('Failed to load internet');
-  }
+    final response = await http
+        .get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('Failed to load internet');
+    }
+    print(response);
 
     var responseData = json.decode(response.body);
 
@@ -66,8 +67,7 @@ class _HomePageState extends State<HomePage> {
           response: singleUser["response"],
           level: singleUser["level"],
           status: singleUser["processed_status"],
-          timestampResponded: singleUser["timestamp_responded"]
-      );
+          timestampResponded: singleUser["timestamp_responded"]);
 
       //Adding user to the list.
       users.add(user);
@@ -79,12 +79,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-      //  custom appbar
+        //  custom appbar
         appBar: AppBar(
-          title: const Text("OnfonMedia"),
-          centerTitle: true,
-          backgroundColor: Colors.blueGrey,
-          
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: Colors.red,
+            statusBarIconBrightness:
+                Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          ),
+          title: Center(
+            child: Image.asset(
+              'assets/images/onfon_logo.png',
+              fit: BoxFit.cover,
+              height: 60.0,
+            ),
+          ),
         ),
         body: Container(
           // column is used to create a vertical list
@@ -117,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                           style: const TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
-                           // show only first 10 characters
+                            // show only first 10 characters
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -127,31 +137,29 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 12.0,
                             // show only first 100 characters
                             overflow: TextOverflow.ellipsis,
-
                           ),
                         ),
                         trailing: const Icon(
                           Icons.keyboard_arrow_right,
                           color: Colors.blue,
                           // on icon click  navigate to next page
-                        
                         ),
-                          // pass data to next page
+                        // pass data to next page
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => homescreen(
-                                id: snapshot.data[index].id,
-                                userId: snapshot.data[index].userId,
+                              builder: (context) => ConversationScreen(
+                                // id: snapshot.data[index].id,
+                                // userId: snapshot.data[index].userId,
                                 title: snapshot.data[index].title,
-                                body: snapshot.data[index].body,
-                                timestamp: snapshot.data[index].timestamp,
-                                carrier: snapshot.data[index].carrier,
-                                response: snapshot.data[index].response,
-                                level: snapshot.data[index].level,
-                                status: snapshot.data[index].status,
-                                timestampResponded: snapshot.data[index].timestampResponded,
+                                // body: snapshot.data[index].body,
+                                // timestamp: snapshot.data[index].timestamp,
+                                // carrier: snapshot.data[index].carrier,
+                                // response: snapshot.data[index].response,
+                                // level: snapshot.data[index].level,
+                                // status: snapshot.data[index].status,
+                                // timestampResponded: snapshot.data[index].timestampResponded,
                               ),
                             ),
                           );
