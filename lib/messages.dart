@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:onfonapp/constants/color.dart';
 import 'package:onfonapp/conversation.dart';
 import 'package:onfonapp/home.dart';
 
@@ -81,9 +82,10 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         //  custom appbar
         appBar: AppBar(
+          
           systemOverlayStyle: SystemUiOverlayStyle(
             // Status bar color
-            statusBarColor: Colors.red,
+            statusBarColor: Color.fromARGB(255, 96, 138, 230),
             statusBarIconBrightness:
                 Brightness.dark, // For Android (dark icons)
             statusBarBrightness: Brightness.light, // For iOS (dark icons)
@@ -97,6 +99,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: Container(
+                 decoration:const  BoxDecoration(
+              gradient: LinearGradient(
+            colors: [purpleBack, blueBack, purpleBack],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          
+              
+                // fit: BoxFit.cover,
+              ),
+            ),
           // column is used to create a vertical list
           padding: const EdgeInsets.all(16.0),
           child: FutureBuilder(

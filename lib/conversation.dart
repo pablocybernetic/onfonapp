@@ -51,9 +51,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
   // get request
   
   Future<List<User>> getRequest() async {
+    // int phone = widget.title
     // restFull API
-    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=0700000000"));
-    print("title");
+    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=${widget.title}"));
+    print(widget.title);
     if (response.statusCode == 200) {
       // print(response.body);
     } else {
@@ -108,6 +109,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   ),
                 ],
           ),
+
           
           // title: const Text('OnfonMedia'),
           actions: <Widget>[
@@ -341,7 +343,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   Uri.parse(
                                       'https://onfon.herokuapp.com/api/messages/message.php'));
                               request.body = json.encode({
-                                "message_from": "+254705374455",
+                                "message_from": "${widget.title}",
                                 "message_to": "22141",
                                 "message_body": message.text.toString(),
                                 "carrier": "Faiba"
