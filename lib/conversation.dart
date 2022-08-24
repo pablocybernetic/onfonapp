@@ -47,6 +47,14 @@ class ConversationScreen extends StatefulWidget {
 }
 
 class _ConversationScreenState extends State<ConversationScreen> {
+  void handleClick(String value) {
+    switch (value) {
+      case 'Logout':
+        break;
+      case 'Settings':
+        break;
+    }
+}
     
   // get request
   
@@ -128,12 +136,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 // do something
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                // do something
-              },
-            ),
+            PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return {'Logout', 'Settings'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
           ],
         ),
         body: Container(
@@ -364,6 +377,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 //     .showSnackBar(const SnackBar(
                                 //   content: Text('Message sent'),
                                 // ));
+                                setState(() {});
+
                                 Soundpool pool = Soundpool(
                                     streamType: StreamType.notification);
 
