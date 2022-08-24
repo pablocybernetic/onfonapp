@@ -114,7 +114,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
           // title: const Text('OnfonMedia'),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.mark_email_unread),
+              icon: const Icon(Icons.group),
               color: const Color.fromARGB(255, 3, 58, 130),
               onPressed: () {
                 // send message
