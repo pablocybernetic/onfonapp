@@ -4,12 +4,14 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import http
 import 'package:http/http.dart' as http;
+import 'package:onfonapp/widgets/CustomCircle.dart';
 import 'package:soundpool/soundpool.dart';
+
+import 'constants/color.dart';
 class User {
   final String id;
-  final String userId;
+  final String messageTo;
   final String title;
   final String body;
   final String timestamp;
@@ -20,7 +22,7 @@ class User {
   final String timestampResponded;
   User({
     required this.id,
-    required this.userId,
+    required this.messageTo,
     required this.title,
     required this.body,
     required this.timestamp,
@@ -33,17 +35,25 @@ class User {
   });
 }
 class ConversationScreen extends StatefulWidget {
-  const ConversationScreen({Key? key}) : super(key: key);
+      final String title;
+
+  const ConversationScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
 }
 
 class _ConversationScreenState extends State<ConversationScreen> {
+    
   // get request
+  
   Future<List<User>> getRequest() async {
     // restFull API
-    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/message.php"));
+    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=0700000000"));
+    print("title");
     if (response.statusCode == 200) {
       // print(response.body);
     } else {
@@ -54,11 +64,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
     // Creating a list to store input data;
     List<User> users = [];
     for (var singleUser in responseData) {
+      if (singleUser['timestamp']==null) {
+        singleUser['timestamp'] = "no";
+      }
       User user = User(
             id: singleUser["id"],
-          userId: singleUser["message_to"],
+          messageTo: singleUser["message_to"],
           title: singleUser["message_from"],
           body: singleUser["Message_body"],
+
           timestamp: singleUser["timestamp"],
           carrier: singleUser["carrier"],
           response: singleUser["response"],
@@ -98,20 +112,22 @@ class _ConversationScreenState extends State<ConversationScreen> {
           // title: const Text('OnfonMedia'),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.mark_email_unread),
+              icon: const Icon(Icons.mark_email_unread),
+              color: const Color.fromARGB(255, 3, 58, 130),
               onPressed: () {
                 // send message
               
               },
             ),
             IconButton(
-              icon: Icon(Icons.favorite),
+              icon: const Icon(Icons.favorite),
+              color: Colors.red,
               onPressed: () {
                 // do something
               },
             ),
             IconButton(
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               onPressed: () {
                 // do something
               },
@@ -121,11 +137,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
         body: Container(
           
                         decoration:const  BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/whatsapp.jpg",
-                // width: 
-
-                ),
+              gradient: LinearGradient(
+            colors: [purpleBack, blueBack],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          
+              
                 // fit: BoxFit.cover,
               ),
             ),
@@ -155,7 +172,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                       return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
+                            return Column(
+                              children: [
+                                Container(
                                margin: const EdgeInsets.all(8.0),
                         padding: const EdgeInsets.all(8.0),
                         decoration: const BoxDecoration(
@@ -185,7 +204,48 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             
                             ),
                             )
+                            ),
+                            Container(
+                               margin: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 71, 102, 167),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.circular(20.0),
+                            bottomRight: Radius.circular(0.0),
+                          ),
+                        ),
+
+                              child: ListTile(
+                              // leading: const Icon(Icons.account_circle),
+                              dense: true,
+                              title: Text(snapshot.data[index].messageTo, 
+                               style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                              )
+                              ), 
+                            subtitle: Text(snapshot.data[index].response
+                            ,style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white,
+                            )
+                            
+                            ),
+                           trailing: const Icon(
+                          Icons.account_circle,
+                          color: Color.fromARGB(255, 10, 33, 51),
+                          // on icon click  navigate to next page
+                        
+                        
+                            )
+                            )
+                            )
+                              ],
                             );
+                              
                             
                           });
                     }
@@ -202,8 +262,18 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
                   child: Center(
                     child: Row(
+                      
                       children: [
+              //           Positioned(
+              //   left: -50,
+              //   top: 100 * 0.1,
+              //   child:  CustomSphere(
+              //     height: 200,
+              //     width: 200,
+              //   ),
+              // ),
                         Expanded(
+                          
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -212,8 +282,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 BoxShadow(
                                     offset: Offset(0, 3),
                                     blurRadius: 5,
-                                    color: Colors.grey)
+                                    color: Colors.grey),
                               ],
+                              
                             ),
                             child: Row(
                               children: [
@@ -309,7 +380,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                       content: Text(reply),
                                       elevation: 24.0,
                                       backgroundColor:
-                                          Color.fromARGB(255, 61, 184, 228),
+                                          const Color.fromARGB(255, 61, 184, 228),
                                     );
                                   },
                                 );

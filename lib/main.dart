@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:onfonapp/home.dart';
 import 'package:onfonapp/messages.dart';
-import 'package:onfonapp/grid.dart';
+import 'package:onfonapp/welcome.dart';
 
 import 'conversation.dart';
 
 
 void main() {
+  
   runApp(const MyApp());
 }
 
@@ -15,15 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       title: 'OnfonMedia',
       
       theme: ThemeData(
+        
       
         primarySwatch: Colors.lightBlue,
       ),
-      home:  const HomePage(),
+      home:  const MyWidget(),
     );
   }
 }
