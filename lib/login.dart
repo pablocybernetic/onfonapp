@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () {
+              ktoast();
              Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -245,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfff2f3f7),
+        backgroundColor: Color.fromARGB(170, 39, 85, 238),
         body: Stack(
           children: <Widget>[
             Container(
@@ -253,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width,
               child: Container(
                 decoration: BoxDecoration(
-                  color:  Colors.grey,
+                  color:  Color.fromARGB(255, 99, 170, 224),
                   borderRadius: BorderRadius.only(
                     bottomLeft: const Radius.circular(70),
                     bottomRight: const Radius.circular(70),
@@ -273,5 +274,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+  
+  void ktoast() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Login success"),
+    ));
   }
 }
