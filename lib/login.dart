@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onfonapp/messages.dart';
 
 
@@ -279,6 +280,28 @@ class _LoginPageState extends State<LoginPage> {
   void ktoast() {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text("Login success"),
+      
     ));
   }
-}
+  void _showAlert(BuildContext context) {
+ showGeneralDialog(
+   context: context,
+   barrierDismissible: false,
+   barrierLabel:
+   MaterialLocalizations.of(context).modalBarrierDismissLabel,
+   transitionDuration: const Duration(milliseconds: 200),
+   pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
+    return Material(
+     type: MaterialType.transparency,
+     child: WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
+        width: MediaQuery.of(context).size.width / 40,
+        height: MediaQuery.of(context).size.height / 9,
+        padding: const EdgeInsets.all(5),
+        child: Container()),
+    ),
+   );
+   }
+ );
+}}
