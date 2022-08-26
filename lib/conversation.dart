@@ -9,6 +9,7 @@ import 'package:onfonapp/widgets/CustomCircle.dart';
 import 'package:soundpool/soundpool.dart';
 
 import 'constants/color.dart';
+
 class User {
   final String id;
   final String messageTo;
@@ -31,11 +32,11 @@ class User {
     required this.level,
     required this.status,
     required this.timestampResponded,
-    
   });
 }
+
 class ConversationScreen extends StatefulWidget {
-      final String title;
+  final String title;
 
   const ConversationScreen({
     Key? key,
@@ -49,19 +50,24 @@ class ConversationScreen extends StatefulWidget {
 class _ConversationScreenState extends State<ConversationScreen> {
   void handleClick(String value) {
     switch (value) {
-      case 'Logout':
+      case 'Info':
+      userrinfo();
         break;
-      case 'Settings':
+      case 'Clear chats':
+        delete();
+        setState(() {});
+
         break;
     }
-}
-    
+  }
+
   // get request
-  
+
   Future<List<User>> getRequest() async {
     // int phone = widget.title
     // restFull API
-    final response = await http.get(Uri.parse("https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=${widget.title}"));
+    final response = await http.get(Uri.parse(
+        "https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=${widget.title}"));
     print(widget.title);
     if (response.statusCode == 200) {
       // print(response.body);
@@ -73,15 +79,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
     // Creating a list to store input data;
     List<User> users = [];
     for (var singleUser in responseData) {
-      if (singleUser['timestamp']==null) {
+      if (singleUser['timestamp'] == null) {
         singleUser['timestamp'] = "no";
       }
       User user = User(
-            id: singleUser["id"],
+          id: singleUser["id"],
           messageTo: singleUser["message_to"],
           title: singleUser["message_from"],
           body: singleUser["Message_body"],
-
           timestamp: singleUser["timestamp"],
           carrier: singleUser["carrier"],
           response: singleUser["response"],
@@ -93,6 +98,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
     }
     return users;
   }
+
   final message = TextEditingController();
   @override
   void dispose() {
@@ -109,16 +115,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
         appBar: AppBar(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/images/onfon_logo.png',
-                    fit: BoxFit.cover,
-                    height: 60.0,
-                  ),
-                ],
+            children: <Widget>[
+              Image.asset(
+                'assets/images/onfon_logo.png',
+                fit: BoxFit.cover,
+                height: 60.0,
+              ),
+            ],
           ),
 
-          
           // title: const Text('OnfonMedia'),
           actions: <Widget>[
             IconButton(
@@ -126,7 +131,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
               color: const Color.fromARGB(255, 3, 58, 130),
               onPressed: () {
                 // send message
-              
               },
             ),
             IconButton(
@@ -137,27 +141,25 @@ class _ConversationScreenState extends State<ConversationScreen> {
               },
             ),
             PopupMenuButton<String>(
-            onSelected: handleClick,
-            itemBuilder: (BuildContext context) {
-              return {'Logout', 'Settings'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
+              onSelected: handleClick,
+              itemBuilder: (BuildContext context) {
+                return {'Info', 'Clear chats'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
+            ),
           ],
         ),
         body: Container(
-          
-                        decoration:const  BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
-            colors: [purpleBack, blueBack],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          
-              
+                colors: [purpleBack, blueBack],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+
                 // fit: BoxFit.cover,
               ),
             ),
@@ -165,109 +167,99 @@ class _ConversationScreenState extends State<ConversationScreen> {
             // background image
             child: Column(
               children: [
-          //       Image.asset(
-          //   "assets/images/whatsapp.jpg",
-            // height: MediaQuery.of(context).size.height,
-          //   width: MediaQuery.of(context).size.width,
-          //   fit: BoxFit.cover,
-          // ),
+                //       Image.asset(
+                //   "assets/images/whatsapp.jpg",
+                // height: MediaQuery.of(context).size.height,
+                //   width: MediaQuery.of(context).size.width,
+                //   fit: BoxFit.cover,
+                // ),
                 // futureBuilder and get request
                 //
                 Expanded(
-                  
-              child:  FutureBuilder(
-                  future: getRequest(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.data == null) {
-                      return const Center(
-                        child: Text("Loading..."),
-                      );
-                      
-                    } else { 
-                      return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                Container(
-                               margin: const EdgeInsets.all(8.0),
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 97, 130, 208),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomLeft: Radius.circular(0.0),
-                            bottomRight: Radius.circular(20.0),
-                          ),
-                        ),
+                  child: FutureBuilder(
+                    future: getRequest(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: Text("Loading..."),
+                        );
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 97, 130, 208),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20.0),
+                                          topRight: Radius.circular(20.0),
+                                          bottomLeft: Radius.circular(0.0),
+                                          bottomRight: Radius.circular(20.0),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        leading:
+                                            const Icon(Icons.account_circle),
+                                        dense: true,
+                                        title: Text(snapshot.data[index].title,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            )),
+                                        subtitle:
+                                            Text(snapshot.data[index].body,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white,
+                                                )),
+                                      )),
+                                  Container(
+                                      margin: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: const BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 71, 102, 167),
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20.0),
+                                          topRight: Radius.circular(20.0),
+                                          bottomLeft: Radius.circular(20.0),
+                                          bottomRight: Radius.circular(0.0),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                          // leading: const Icon(Icons.account_circle),
+                                          dense: true,
+                                          title: Text(
+                                              snapshot.data[index].messageTo,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                              )),
+                                          subtitle: Text(
+                                              snapshot.data[index].response,
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                              )),
+                                          trailing: const Icon(
+                                            Icons.account_circle,
+                                            color:
+                                                Color.fromARGB(255, 10, 33, 51),
+                                            // on icon click  navigate to next page
+                                          )))
+                                ],
+                              );
+                            });
+                      }
+                    },
+                  ),
+                ),
 
-                              child: ListTile(
-                              leading: const Icon(Icons.account_circle),
-                              dense: true,
-                              title: Text(snapshot.data[index].title, 
-                               style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              )
-                              ), 
-                            subtitle: Text(snapshot.data[index].body
-                            ,style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            )
-                            
-                            ),
-                            )
-                            ),
-                            Container(
-                               margin: const EdgeInsets.all(8.0),
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 71, 102, 167),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomLeft: Radius.circular(20.0),
-                            bottomRight: Radius.circular(0.0),
-                          ),
-                        ),
-
-                              child: ListTile(
-                              // leading: const Icon(Icons.account_circle),
-                              dense: true,
-                              title: Text(snapshot.data[index].messageTo, 
-                               style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              )
-                              ), 
-                            subtitle: Text(snapshot.data[index].response
-                            ,style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            )
-                            
-                            ),
-                           trailing: const Icon(
-                          Icons.account_circle,
-                          color: Color.fromARGB(255, 10, 33, 51),
-                          // on icon click  navigate to next page
-                        
-                        
-                            )
-                            )
-                            )
-                              ],
-                            );
-                              
-                            
-                          });
-                    }
-                  },
-                ),),
-                 
-              
                 Container(
                   // background image
 
@@ -277,18 +269,16 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
                   child: Center(
                     child: Row(
-                      
                       children: [
-              //           Positioned(
-              //   left: -50,
-              //   top: 100 * 0.1,
-              //   child:  CustomSphere(
-              //     height: 200,
-              //     width: 200,
-              //   ),
-              // ),
+                        //           Positioned(
+                        //   left: -50,
+                        //   top: 100 * 0.1,
+                        //   child:  CustomSphere(
+                        //     height: 200,
+                        //     width: 200,
+                        //   ),
+                        // ),
                         Expanded(
-                          
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -299,7 +289,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                     blurRadius: 5,
                                     color: Colors.grey),
                               ],
-                              
                             ),
                             child: Row(
                               children: [
@@ -361,7 +350,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                 "message_body": message.text.toString(),
                                 "carrier": "Faiba"
                               });
-                               message.clear();
+                              message.clear();
 
                               request.headers.addAll(headers);
 
@@ -396,8 +385,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                       // display response body
                                       content: Text(reply),
                                       elevation: 24.0,
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 61, 184, 228),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 61, 184, 228),
                                     );
                                   },
                                 );
@@ -416,5 +405,22 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ],
             )));
   }
+
+  void delete() async {
+    var headers = {'Cookie': 'PHPSESSID=odaqmp054bkrprs3dgohk1lffcubg750'};
+    var request = http.Request('DELETE', Uri.parse('https://onfon.herokuapp.com/api/messages/single_user_messages.php?phone=${widget.title}'));
+    request.body = '''''';
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      print({request});
+    }
+  }
   
+  void userrinfo() {
+    
+  }
 }

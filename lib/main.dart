@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onfonapp/home.dart';
+import 'package:onfonapp/login.dart';
 import 'package:onfonapp/messages.dart';
 import 'package:onfonapp/welcome.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       
         primarySwatch: Colors.lightBlue,
       ),
-      home:  const MyWidget(),
+      home:  LoginPage(),
     );
   }
 }
