@@ -72,8 +72,9 @@ class _HomePageState extends State<HomePage> {
           );
 
       //Addin g user to the list.
-      
+
       users.add(user);
+      
     }
     return users;
   }
