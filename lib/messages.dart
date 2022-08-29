@@ -76,7 +76,6 @@ class _HomePageState extends State<HomePage> {
     }
     return users;
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
