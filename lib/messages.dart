@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 child: const Icon(
                   Icons.arrow_back,
                   // set size of icon
-                  size: 40.0,
+                  size: 35.0,
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
@@ -97,8 +97,8 @@ class _HomePageState extends State<HomePage> {
                 child: Image.asset(
                   'assets/images/onfon.jpg',
                   fit: BoxFit.cover,
-                  height: 45.0,
-                  width: 45.0,
+                  height: 40.0,
+                  width: 40.0,
                 ),
               )
             ],

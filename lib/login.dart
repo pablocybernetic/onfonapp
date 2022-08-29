@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onfonapp/messages.dart';
+import 'package:onfonapp/widgets/CustomCircle.dart';
+import 'package:onfonapp/widgets/GlassMorphismContainer.dart';
 
 
 
@@ -39,10 +41,10 @@ class _LoginPageState extends State<LoginPage> {
         },
         decoration: InputDecoration(
             prefixIcon: Icon(
-              Icons.email,
-              color: Colors.grey,
+              Icons.phone,
+            color:  Color.fromARGB(255, 2, 18, 49),
             ),
-            labelText: 'E-mail'),
+            labelText: 'Phone'),
       ),
     );
   }
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.lock,
-            color:  Colors.grey,
+            color:  Color.fromARGB(255, 2, 18, 49),
           ),
           labelText: 'Password',
         ),
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.only(bottom: 20),
           child: RaisedButton(
             elevation: 5.0,
-            color:  Colors.grey,
+            color:  Color.fromARGB(255, 10, 120, 246),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
@@ -147,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
             width: 60,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color:  Colors.grey,
+              color:  Color.fromRGBO(23, 10, 214, 1),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black26,
@@ -156,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             child: Icon(
-              Icons.g_mobiledata,
+              Icons.facebook_rounded,
               color: Colors.white,
             ),
           ),
@@ -169,16 +171,20 @@ class _LoginPageState extends State<LoginPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        
         ClipRRect(
+          
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           ),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.6,
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
+           child: GlassMorphismContainer(
+                      height: 430,
+                      width: 350 * 0.8,
+            // height: MediaQuery.of(context).size.height * 0.6,
+            // width: MediaQuery.of(context).size.width * 0.8,
+            // decoration: BoxDecoration(
+            //   color: Colors.white,
+            // ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextSpan(
                   text: 'Sign Up',
                   style: TextStyle(
-                    color:  Colors.grey,
+                    color:  Color.fromARGB(255, 255, 255, 255),
                     fontSize: MediaQuery.of(context).size.height / 40,
                     fontWeight: FontWeight.bold,
                   ),
@@ -249,7 +255,12 @@ class _LoginPageState extends State<LoginPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Color.fromARGB(170, 39, 85, 238),
         body: Stack(
+          
           children: <Widget>[
+              // CustomSphere(
+              //         height: 200,
+              //         width: 200,
+              //       ),
             Container(
               height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width,
@@ -261,6 +272,14 @@ class _LoginPageState extends State<LoginPage> {
                     bottomRight: const Radius.circular(70),
                   ),
                 ),
+                // child: Positioned(
+                //     right: -50,
+                //     bottom: 100 * 0.1,
+                //     child: CustomSphere(
+                //       height: 20,
+                //       width: 20,
+                //     ),
+                //   ),
               ),
             ),
             Column(
