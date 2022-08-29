@@ -71,7 +71,8 @@ class _HomePageState extends State<HomePage> {
           timestampResponded: singleUser["timestamp_responded"]
           );
 
-      //Adding user to the list.
+      //Addin g user to the list.
+      
       users.add(user);
     }
     return users;
