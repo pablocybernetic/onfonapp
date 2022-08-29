@@ -68,7 +68,8 @@ class _HomePageState extends State<HomePage> {
           response: singleUser["response"],
           level: singleUser["level"],
           status: singleUser["processed_status"],
-          timestampResponded: singleUser["timestamp_responded"]);
+          timestampResponded: singleUser["timestamp_responded"]
+          );
 
       //Adding user to the list.
       users.add(user);
