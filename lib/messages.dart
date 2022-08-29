@@ -70,7 +70,6 @@ class _HomePageState extends State<HomePage> {
           status: singleUser["processed_status"],
           timestampResponded: singleUser["timestamp_responded"]
           );
-
       //Addin g user to the list.
       users.add(user);      
     }
